@@ -231,6 +231,11 @@ sub start {
 		$self->{httpRequest}->setFollowNewLocation();
 	}
 	$self->{startTime} = gettimeofday();
+
+	# Added to prevent download of .torrent files, short circuit everything.
+	$self->_runProgram();
+	return;
+
 	$self->{httpRequest}->sendRequest("GET", "", $self->{downloadUrl}, $self->{ti}{httpHeaders}, sub {
 		$self->_onTorrentDownloaded(@_);
 	});
